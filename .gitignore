@@ -1,0 +1,9 @@
+venv/
+env/
+__pycache__/
+.scannerwork/
+.idea
+.pytest_cache
+.coverage
+*.xml
+*.log

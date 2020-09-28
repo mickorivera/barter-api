@@ -1,0 +1,12 @@
+{
+  "prerun": "",
+  "directory": "migrations",
+  "history": "migratehistory",
+  "models": [
+    "app.v1.card.models.CardModel",
+    "app.v1.comment.models.CommentModel",
+    "app.v1.comment.models.CommentReplyModel",
+    "app.v1.list.models.ListModel",
+    "app.v1.user.models.UserModel"
+  ]
+}
