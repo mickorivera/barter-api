@@ -24,7 +24,7 @@ Requirement: Postgresql
 service postgresql start
 service postgresql status
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'password';"
-sudo -u postgres createdb irithm
+sudo -u postgres createdb barter
 ```
 
 ### Schema Migration
