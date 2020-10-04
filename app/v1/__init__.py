@@ -18,7 +18,7 @@ from app.v1.list.resources import (
 )
 from app.v1.list.schemas import ListSchema
 from app.v1.user.resources import create_user, get_user_list, login, logout
-from app.v1.user.schemas import UserSchema, UserLoginSchema
+from app.v1.user.schemas import UserSchema, UserLoginSchema, UserSignUpSchema
 from config import get_config
 
 
@@ -58,8 +58,13 @@ version_1_registry.add_handler(
     create_user,
     rule="/sign-up",
     method="POST",
-    request_body_schema=UserSchema(),
-    response_body_schema=UserSchema(),
+    request_body_schema=UserSignUpSchema(),
+    response_body_schema={
+        201: UserSignUpSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
     tags=["User"],
 )
 

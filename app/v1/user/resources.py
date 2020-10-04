@@ -3,7 +3,8 @@ import os
 from flask import redirect, url_for
 from flask_login import login_required, login_user, logout_user
 from flask_rebar import get_validated_body
-from flask_rebar.errors import NotFound, Unauthorized
+from flask_rebar.errors import BadRequest, NotFound, Unauthorized
+from playhouse.postgres_ext import IntegrityError
 
 from app.utils.hashing import get_hash
 from app.v1.user.models import UserModel
@@ -18,14 +19,19 @@ def create_user():
     validated_body = get_validated_body()
 
     salt = os.urandom(32)
-    user = UserModel.create(
-        username=validated_body.get("username"),
-        email_address=validated_body.get("username"),
-        salt=salt,
-        key=get_hash(password=validated_body.get("password"), salt=salt),
-    )
+    try:
+        user = UserModel.create(
+            username=validated_body.get("username"),
+            email_address=validated_body.get("email_address"),
+            salt=salt,
+            key=get_hash(password=validated_body.get("password"), salt=salt),
+        )
+    except IntegrityError:
+        raise BadRequest()
+    except Exception as e:
+        pass
 
-    return user
+    return user, 201
 
 
 def login():

@@ -73,7 +73,7 @@ class BaseSQLModel(Model):
     @classmethod
     @ensure_connection
     def select(cls, *fields):
-        return super().select(*fields)
+        return super().select(*fields).where(cls.is_deleted == False)
 
     @classmethod
     @ensure_connection
