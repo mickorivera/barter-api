@@ -60,20 +60,20 @@ def members(users):
     yield [user for user in users if user.role == UserRole.MEMBER]
 
 
-@pytest.fixture(scope="session", autouse=True)
-def lists(admins):
-    if ListModel.table_exists():
-        ListModel.truncate_table(cascade=True)
-
-    lists = []
-    for admin in admins:
-        for list_index in range(2):
-            lists.append(
-                ListModel.create(
-                    author=admin, title=f"{admin.username} list {list_index}"
-                )
-            )
-
-    yield lists
-
-    ListModel.truncate_table(cascade=True)
+# @pytest.fixture(scope="session", autouse=True)
+# def lists(admins):
+#     if ListModel.table_exists():
+#         ListModel.truncate_table(cascade=True)
+#
+#     lists = []
+#     for admin in admins:
+#         for list_index in range(2):
+#             lists.append(
+#                 ListModel.create(
+#                     author=admin, title=f"{admin.username} list {list_index}"
+#                 )
+#             )
+#
+#     yield lists
+#
+#     ListModel.truncate_table(cascade=True)
