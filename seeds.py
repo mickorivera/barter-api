@@ -53,44 +53,6 @@ def seed():
     )
     logging.info(f"Created {rivera.username}")
 
-    for admin in (micko, michael):
-        for list_index in range(2):
-            app_list = ListModel.create(
-                author=admin, title=f"{admin.username} list {list_index}"
-            )
-            logging.info(f"{admin.username} created {app_list.title}")
-
-            for card_index in range(3):
-                card = CardModel.create(
-                    author=admin,
-                    list=app_list,
-                    title=f"{app_list.title} Card {card_index}",
-                    description=f"{app_list.title} Card {card_index} Description",
-                )
-                logging.info(
-                    f"{admin.username} created {card.title} on {app_list}"
-                )
-
-                for comment_index in range(5):
-                    comment = CommentModel.create(
-                        author=admin,
-                        card=card,
-                        content=f"{card.title} Comment {comment_index}",
-                    )
-                    logging.info(
-                        f"{admin.username} commented {comment.content} on {card.title}"
-                    )
-
-                    for reply_index in range(5):
-                        comment_reply = CommentReplyModel.create(
-                            author=admin,
-                            comment=comment,
-                            content=f"{comment.content} Comment Reply {reply_index}",
-                        )
-                        logging.info(
-                            f"{admin.username} commented {comment_reply.content} on {comment.content}"
-                        )
-
 
 if __name__ == "__main__":
     clear_table()

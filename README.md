@@ -1,5 +1,5 @@
-# irithm-cards
-Sample Flask Rebar App
+# Barter API
+Main API for the Barter System
 
 
 ## Requirements

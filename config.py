@@ -22,7 +22,7 @@ class LocalConfig:
     DEBUG = True
     TEST = False
 
-    POSTGRESQL_DB_NAME = "irithm"
+    POSTGRESQL_DB_NAME = "barter"
     POSTGRESQL_DB_HOST = "127.0.0.1"
     POSTGRESQL_DB_PORT = "5432"
     POSTGRESQL_DB_USERNAME = "postgres"
