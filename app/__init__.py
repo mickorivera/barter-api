@@ -35,13 +35,11 @@ class RestApp(Flask):
         self._init_logger()
         self._init_db_client()
 
-        self.login_manager.user_loader
-
     def _init_logger(self):
         base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         logging.config.fileConfig(f"{base_dir}/logging.conf")
 
-        self.custom_logger = logging.getLogger("irithm")
+        self.custom_logger = logging.getLogger("barter")
         self.custom_logger.setLevel(
             logging.DEBUG if self.config["DEBUG"] else logging.INFO
         )
