@@ -17,7 +17,7 @@ class UserModel(BaseSQLModel, UserMixin):
     email_address = CharField(unique=True, max_length=256)
     salt = BlobField()
     key = BlobField()
-    role = CharField(default=UserRole.MEMBER)
+    role = CharField(choices=UserRole, default=UserRole.MEMBER)
     date_created = DateTimeField(null=True)
     date_updated = DateTimeField(null=True)
     is_deleted = BooleanField(default=False)
