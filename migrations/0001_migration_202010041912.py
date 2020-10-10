@@ -13,11 +13,10 @@ class UserModel(peewee.Model):
     email_address = CharField(max_length=256, unique=True)
     salt = BlobField()
     key = BlobField()
-    role = CharField(default='MEMBER', max_length=255)
+    role = CharField(default="MEMBER", max_length=255)
     date_created = DateTimeField(null=True)
     date_updated = DateTimeField(null=True)
     is_deleted = BooleanField(default=False)
+
     class Meta:
         table_name = "users"
-
-

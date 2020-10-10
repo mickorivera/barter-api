@@ -24,8 +24,8 @@ from config import get_config
 
 swagger_generator = SwaggerV3Generator(
     version="1.0.0",
-    title="Irithm API V1",
-    description="Sample API for Irithm Application",
+    title="Barter API V1",
+    description="API for Barter Application",
 )
 
 config = get_config()

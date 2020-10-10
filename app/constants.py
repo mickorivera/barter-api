@@ -19,3 +19,9 @@ class ConstBaseMeta(type):
 class UserRole(metaclass=ConstBaseMeta):
     ADMIN = "ADMIN"
     MEMBER = "MEMBER"
+
+
+class ItemStatus(metaclass=ConstBaseMeta):
+    RESERVED = "RESERVED"
+    AVAILABLE = "AVAILABLE"
+    EXCHANGED = "EXCHANGED"
