@@ -70,6 +70,77 @@ class TestUserLogin:
         assert expected["response"] == response.json
 
 
+class TestUserSignup():
+    def setup_method(self):
+        app = RestApp()
+
+        self._app_client = app.test_client()
+
+        self.endpoint = "v1/sign-up"
+        self.content_type = "application/json"
+
+    def teardown_class(cls):
+        user = UserModel.get(username="new_username")
+        user.is_deleted = True
+        user.save()
+        print(user)
+
+    @pytest.mark.parametrize(
+        "test_input, expected",
+        [
+            (
+                {
+                    "username": "new_username",
+                    "password": "password1",
+                    "email_address": "new_username@gmail.com"
+                },
+                {
+                    "status_code": HTTPStatus.CREATED,
+                    "response": {
+                        "username": "new_username",
+                        "email_address": "new_username@gmail.com",
+                    },
+                },
+            ),
+            (
+                {
+                    "username": "user1",
+                    "email_address": "test@maol.com",
+                    "password": "somepassword",
+                },
+                {
+                    "status_code": HTTPStatus.BAD_REQUEST,
+                    "response": {"message": "Bad Request"},
+                },
+            ),
+            (
+                {
+                    "username": "usernameonly",
+                },
+                {
+                    "status_code": HTTPStatus.BAD_REQUEST,
+                    "response": {
+                        "errors": {
+                            'email_address': 'Missing data for required field.',
+                            'password': 'Missing data for required field.'
+                        },
+                        "message": "JSON body parameters are invalid."
+                    },
+                },
+            ),
+        ],
+    )
+    def test_signup(self, test_input, expected):
+        response = self._app_client.post(
+            self.endpoint,
+            content_type=self.content_type,
+            json=test_input,
+        )
+
+        assert expected["status_code"] == response.status_code
+        assert expected["response"] == response.json
+
+
 class TestUserIndex:
     def setup_method(self):
         app = RestApp()
@@ -114,4 +185,6 @@ class TestUserIndex:
             }
             for user in users
         ]
+        print(expected_response)
+        print(response.json)
         assert expected_response == response.json

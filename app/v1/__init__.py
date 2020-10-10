@@ -18,7 +18,7 @@ from app.v1.list.resources import (
 )
 from app.v1.list.schemas import ListSchema
 from app.v1.user.resources import create_user, get_user_list, login, logout
-from app.v1.user.schemas import UserSchema, UserLoginSchema
+from app.v1.user.schemas import UserSchema, UserLoginSchema, UserSignUpSchema
 from config import get_config
 
 
@@ -40,93 +40,6 @@ version_1_registry = HandlerRegistry(
 # authenticator = HeaderApiKeyAuthenticator(header='X-MyApp-ApiKey')
 # authenticator.register_key(key='my-secret-api-key')
 
-# Cards Endpoints
-version_1_registry.add_handler(
-    get_card_list,
-    rule="/cards",
-    method="GET",
-    response_body_schema=CardSchema(),
-    tags=["Card"],
-)
-
-# Comment Endpoints
-version_1_registry.add_handler(
-    get_all_comments,
-    rule="/comments",
-    method="GET",
-    response_body_schema=CommentSchema(),
-    tags=["Comment"],
-)
-
-version_1_registry.add_handler(
-    get_comment_replies,
-    rule="/comment-replies",
-    method="GET",
-    response_body_schema=CommentReplySchema(),
-    tags=["Comment"],
-)
-
-# List Endpoints
-version_1_registry.add_handler(
-    get_lists,
-    rule="/lists",
-    method="GET",
-    response_body_schema={
-        200: ListSchema(many=True),
-        401: ErrorSchema(),
-        404: ErrorSchema(),
-        500: ErrorSchema(),
-    },
-    tags=["List"],
-)
-
-version_1_registry.add_handler(
-    create_list,
-    rule="/lists",
-    method="POST",
-    request_body_schema=ListSchema(),
-    response_body_schema={
-        200: ListSchema(),
-        401: ErrorSchema(),
-        500: ErrorSchema(),
-    },
-    tags=["List"],
-)
-
-version_1_registry.add_handler(
-    get_list_item,
-    rule="/lists/<id>",
-    method="GET",
-    response_body_schema={
-        200: ListSchema(),
-        401: ErrorSchema(),
-        404: ErrorSchema(),
-        500: ErrorSchema(),
-    },
-    tags=["List"],
-)
-
-version_1_registry.add_handler(
-    update_list_item,
-    rule="/lists/<id>",
-    method="PATCH",
-    request_body_schema=ListSchema(),
-    response_body_schema={
-        200: ListSchema(),
-        401: ErrorSchema(),
-        404: ErrorSchema(),
-        500: ErrorSchema(),
-    },
-    tags=["List"],
-)
-
-version_1_registry.add_handler(
-    delete_list_item,
-    rule="/lists/<id>",
-    method="DELETE",
-    tags=["List"],
-)
-
 # User Endpoints
 version_1_registry.add_handler(
     get_user_list,
@@ -145,8 +58,13 @@ version_1_registry.add_handler(
     create_user,
     rule="/sign-up",
     method="POST",
-    request_body_schema=UserSchema(),
-    response_body_schema=UserSchema(),
+    request_body_schema=UserSignUpSchema(),
+    response_body_schema={
+        201: UserSignUpSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
     tags=["User"],
 )
 
