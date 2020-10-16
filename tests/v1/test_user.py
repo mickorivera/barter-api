@@ -70,7 +70,7 @@ class TestUserLogin:
         assert expected["response"] == response.json
 
 
-class TestUserSignup():
+class TestUserSignup:
     def setup_method(self):
         app = RestApp()
 
@@ -92,7 +92,7 @@ class TestUserSignup():
                 {
                     "username": "new_username",
                     "password": "password1",
-                    "email_address": "new_username@gmail.com"
+                    "email_address": "new_username@gmail.com",
                 },
                 {
                     "status_code": HTTPStatus.CREATED,
@@ -121,10 +121,10 @@ class TestUserSignup():
                     "status_code": HTTPStatus.BAD_REQUEST,
                     "response": {
                         "errors": {
-                            'email_address': 'Missing data for required field.',
-                            'password': 'Missing data for required field.'
+                            "email_address": "Missing data for required field.",
+                            "password": "Missing data for required field.",
                         },
-                        "message": "JSON body parameters are invalid."
+                        "message": "JSON body parameters are invalid.",
                     },
                 },
             ),
