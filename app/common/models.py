@@ -62,13 +62,11 @@ class BaseSQLModel(Model):
     def insert(self, **insert):
         if "date_updated" not in insert:
             insert["date_updated"] = self._get_utc_timestamp()
-        return super(BaseSQLModel, self).insert(**insert)
+        return super().insert(**insert)
 
     @ensure_connection
     def save(self, force_insert=False, only=None):
-        return super(BaseSQLModel, self).save(
-            force_insert=force_insert, only=only
-        )
+        return super().save(force_insert=force_insert, only=only)
 
     @classmethod
     @ensure_connection

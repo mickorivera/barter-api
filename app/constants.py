@@ -16,12 +16,21 @@ class ConstBaseMeta(type):
         return ",".join(cls._attributes)
 
 
-class UserRole(metaclass=ConstBaseMeta):
-    ADMIN = "ADMIN"
-    MEMBER = "MEMBER"
+class Currency(metaclass=ConstBaseMeta):
+    PHP = "PHP"
+
+
+class ItemCondition(metaclass=ConstBaseMeta):
+    NEW = "NEW"
+    USED = "USED"
 
 
 class ItemStatus(metaclass=ConstBaseMeta):
     RESERVED = "RESERVED"
     AVAILABLE = "AVAILABLE"
     EXCHANGED = "EXCHANGED"
+
+
+class UserRole(metaclass=ConstBaseMeta):
+    ADMIN = "ADMIN"
+    MEMBER = "MEMBER"

@@ -24,3 +24,6 @@ class UserModel(BaseSQLModel, UserMixin):
 
     class Meta(BaseSQLModel):
         table_name = "users"
+
+    def __str__(self):
+        return self.username
