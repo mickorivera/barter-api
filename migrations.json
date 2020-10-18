@@ -3,6 +3,13 @@
   "directory": "migrations",
   "history": "migratehistory",
   "models": [
+    "app.v1.listing.models.BrandModel",
+    "app.v1.listing.models.CategoryModel",
+    "app.v1.listing.models.ImageModel",
+    "app.v1.listing.models.ItemModel",
+    "app.v1.listing.models.ItemTagModel",
+    "app.v1.listing.models.TagModel",
+    "app.v1.listing.models.MatchModel",
     "app.v1.user.models.UserModel"
   ]
 }
