@@ -2,22 +2,15 @@ from flask_rebar import SwaggerV3Generator, Tag
 from flask_rebar.rebar import HandlerRegistry
 
 from app.common.schemas import ErrorSchema
-from app.v1.card.resources import get_card_list
-from app.v1.card.schemas import CardSchema
-from app.v1.comment.resources import (
-    get_all_comments,
-    get_comment_replies,
+from app.v1.listing.resources import get_item_details, get_user_item_list
+from app.v1.listing.schemas import ItemSchema
+from app.v1.user.resources import (
+    create_user,
+    get_user_details,
+    get_user_list,
+    login,
+    logout,
 )
-from app.v1.comment.schemas import CommentReplySchema, CommentSchema
-from app.v1.list.resources import (
-    create_list,
-    delete_list_item,
-    get_list_item,
-    get_lists,
-    update_list_item,
-)
-from app.v1.list.schemas import ListSchema
-from app.v1.user.resources import create_user, get_user_list, login, logout
 from app.v1.user.schemas import UserSchema, UserLoginSchema, UserSignUpSchema
 from config import get_config
 
@@ -53,7 +46,18 @@ version_1_registry.add_handler(
     },
     tags=["User"],
 )
-
+version_1_registry.add_handler(
+    get_user_details,
+    rule="/users/<id>",
+    method="GET",
+    response_body_schema={
+        200: UserSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["User"],
+)
 version_1_registry.add_handler(
     create_user,
     rule="/sign-up",
@@ -67,7 +71,6 @@ version_1_registry.add_handler(
     },
     tags=["User"],
 )
-
 version_1_registry.add_handler(
     login,
     rule="/login",
@@ -80,7 +83,6 @@ version_1_registry.add_handler(
     },
     tags=["User"],
 )
-
 version_1_registry.add_handler(
     logout,
     rule="/logout",
@@ -91,4 +93,31 @@ version_1_registry.add_handler(
         500: ErrorSchema(),
     },
     tags=["User"],
+)
+
+# Item Endpoints
+version_1_registry.add_handler(
+    get_user_item_list,
+    rule="/users/<user_id>/items",
+    method="GET",
+    response_body_schema={
+        200: ItemSchema(many=True),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+
+version_1_registry.add_handler(
+    get_item_details,
+    rule="/items/<id>",
+    method="GET",
+    response_body_schema={
+        200: ItemSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
 )

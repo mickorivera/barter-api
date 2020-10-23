@@ -15,6 +15,11 @@ def get_user_list():
     return UserModel.select()
 
 
+@login_required
+def get_user_details(id):
+    return UserModel.get(id=id)
+
+
 def create_user():
     validated_body = get_validated_body()
 

@@ -1,6 +1,7 @@
 import logging
 import logging.config
 import os
+from flask_marshmallow import Marshmallow as FlaskMarshmallow
 from flask import Flask
 from flask_cors import CORS
 from flask_login import LoginManager
@@ -26,6 +27,8 @@ class RestApp(Flask):
         self.rebar = Rebar()
         self.rebar.add_handler_registry(version_1_registry)
         self.rebar.init_app(app=self)
+
+        self.flask_marshmallow = FlaskMarshmallow(app=self)
 
         self.secret_key = config.API_SECRET_KEY
         self.login_manager = LoginManager()
