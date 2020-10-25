@@ -16,7 +16,6 @@ from app.v1.user.models import UserModel
 class TagModel(BaseSQLModel):
     id = AutoField()
     value = CharField(unique=True, max_length=64)
-    raw_value = CharField(max_length=64)
     date_created = DateTimeField(null=True)
     date_updated = DateTimeField(null=True)
     is_deleted = BooleanField(default=False)
@@ -32,7 +31,6 @@ class TagModel(BaseSQLModel):
         return super().get(**kwargs)
 
     def save(self, *args, **kwargs):
-        self.raw_value = self.value
         self.value = self.value.lower()
         return super().save(*args, **kwargs)
 

@@ -13,32 +13,17 @@ from app.v1.user.models import UserModel
 
 @login_required
 def get_brand_list():
-    return
-
-
-@login_required
-def get_brand_details():
-    pass
+    return BrandModel.select()
 
 
 @login_required
 def get_category_list():
-    pass
+    return CategoryModel.select()
 
 
 @login_required
-def get_category_details():
-    pass
-
-
-@login_required
-def get_tags():
-    pass
-
-
-@login_required
-def get_tag_details():
-    pass
+def get_tag_list():
+    return TagModel.select()
 
 
 @login_required

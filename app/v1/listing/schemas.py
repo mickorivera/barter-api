@@ -6,20 +6,34 @@ from app.constants import Currency, ItemCondition, ItemStatus
 from app.v1.user.schemas import UserSchema
 
 
-class TagSchema(Schema):
-    id = fields.Integer(required=True)
-    value = fields.String(required=True, load_only=True)
-    raw_value = fields.Str(dump_only=True)
-
-
 class BrandSchema(Schema):
     id = fields.Integer(required=True)
     name = fields.String(required=True)
+
+    _links = DictHyperlinks(
+        {"brands": URLFor("v1.get_brand_list")},
+        dump_only=True,
+    )
 
 
 class CategorySchema(Schema):
     id = fields.Integer(required=True)
     name = fields.String(required=True)
+
+    _links = DictHyperlinks(
+        {"categories": URLFor("v1.get_category_list")},
+        dump_only=True,
+    )
+
+
+class TagSchema(Schema):
+    id = fields.Integer(required=True)
+    value = fields.String(required=True)
+
+    _links = DictHyperlinks(
+        {"tags": URLFor("v1.get_tag_list")},
+        dump_only=True,
+    )
 
 
 class ItemSchema(Schema):

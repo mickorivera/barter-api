@@ -4,14 +4,18 @@ from flask_rebar.rebar import HandlerRegistry
 from app.common.schemas import ErrorSchema
 from app.v1.listing.resources import (
     create_item,
-    get_brand_details,
     get_brand_list,
-    get_category_details,
     get_category_list,
     get_item_details,
+    get_tag_list,
     get_user_item_list,
 )
-from app.v1.listing.schemas import ItemSchema
+from app.v1.listing.schemas import (
+    BrandSchema,
+    CategorySchema,
+    ItemSchema,
+    TagSchema,
+)
 from app.v1.user.resources import (
     create_user,
     get_user_details,
@@ -130,6 +134,42 @@ version_1_registry.add_handler(
     request_body_schema=ItemSchema(),
     response_body_schema={
         200: ItemSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+version_1_registry.add_handler(
+    get_brand_list,
+    rule="/brands",
+    method="GET",
+    response_body_schema={
+        200: BrandSchema(many=True),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+version_1_registry.add_handler(
+    get_category_list,
+    rule="/categories",
+    method="GET",
+    response_body_schema={
+        200: CategorySchema(many=True),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+version_1_registry.add_handler(
+    get_tag_list,
+    rule="/tags",
+    method="GET",
+    response_body_schema={
+        200: TagSchema(many=True),
         401: ErrorSchema(),
         404: ErrorSchema(),
         500: ErrorSchema(),
