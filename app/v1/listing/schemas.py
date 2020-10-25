@@ -1,22 +1,24 @@
-from flask_marshmallow.fields import Hyperlinks, URLFor
+from flask_marshmallow.fields import URLFor
 from marshmallow import fields, Schema, validate
 
 from app.common.fields import DictHyperlinks
 from app.constants import Currency, ItemCondition, ItemStatus
+from app.v1.user.schemas import UserSchema
 
 
 class TagSchema(Schema):
-    id = fields.Integer(dump_only=True)
-    raw_value = fields.String(required=True)
+    id = fields.Integer(required=True)
+    value = fields.String(required=True, load_only=True)
+    raw_value = fields.Str(dump_only=True)
 
 
 class BrandSchema(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     name = fields.String(required=True)
 
 
 class CategorySchema(Schema):
-    id = fields.Integer(dump_only=True)
+    id = fields.Integer(required=True)
     name = fields.String(required=True)
 
 
@@ -24,7 +26,7 @@ class ItemSchema(Schema):
     id = fields.Integer(dump_only=True)
 
     title = fields.String(required=True)
-    user = fields.Integer(required=True, attribute="id")
+    user = fields.Nested(UserSchema, dump_only=True, only="id")
     category = fields.Nested(CategorySchema, required=True)
     brand = fields.Nested(BrandSchema, required=True)
     tags = fields.Nested(TagSchema, many=True)
@@ -43,6 +45,9 @@ class ItemSchema(Schema):
         {
             "self": URLFor("v1.get_item_details", values=dict(id="<id>")),
             "user": URLFor("v1.get_user_details", values=dict(id="<user_id>")),
+            "user_items": URLFor(
+                "v1.get_user_item_list", values=dict(user_id="<user_id>")
+            ),
         },
         dump_only=True,
     )

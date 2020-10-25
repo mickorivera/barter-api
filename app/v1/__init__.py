@@ -2,7 +2,15 @@ from flask_rebar import SwaggerV3Generator, Tag
 from flask_rebar.rebar import HandlerRegistry
 
 from app.common.schemas import ErrorSchema
-from app.v1.listing.resources import get_item_details, get_user_item_list
+from app.v1.listing.resources import (
+    create_item,
+    get_brand_details,
+    get_brand_list,
+    get_category_details,
+    get_category_list,
+    get_item_details,
+    get_user_item_list,
+)
 from app.v1.listing.schemas import ItemSchema
 from app.v1.user.resources import (
     create_user,
@@ -87,11 +95,6 @@ version_1_registry.add_handler(
     logout,
     rule="/logout",
     method="POST",
-    response_body_schema={
-        200: UserSchema(),
-        401: ErrorSchema(),
-        500: ErrorSchema(),
-    },
     tags=["User"],
 )
 
@@ -108,11 +111,23 @@ version_1_registry.add_handler(
     },
     tags=["Item"],
 )
-
 version_1_registry.add_handler(
     get_item_details,
     rule="/items/<id>",
     method="GET",
+    response_body_schema={
+        200: ItemSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+version_1_registry.add_handler(
+    create_item,
+    rule="/items",
+    method="POST",
+    request_body_schema=ItemSchema(),
     response_body_schema={
         200: ItemSchema(),
         401: ErrorSchema(),

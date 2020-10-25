@@ -27,6 +27,10 @@ class TagModel(BaseSQLModel):
     def __str__(self):
         return self.value
 
+    def get(self, **kwargs):
+        kwargs["value"] = kwargs["value"].lower()
+        return super().get(**kwargs)
+
     def save(self, *args, **kwargs):
         self.raw_value = self.value
         self.value = self.value.lower()
