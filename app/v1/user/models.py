@@ -2,9 +2,7 @@ from flask_login import UserMixin
 from playhouse.postgres_ext import (
     AutoField,
     BlobField,
-    BooleanField,
     CharField,
-    DateTimeField,
 )
 
 from app.common.models import BaseSQLModel
@@ -18,9 +16,6 @@ class UserModel(BaseSQLModel, UserMixin):
     salt = BlobField()
     key = BlobField()
     role = CharField(choices=UserRole, default=UserRole.MEMBER)
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "users"

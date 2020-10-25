@@ -1,7 +1,12 @@
 import inspect
 from datetime import datetime
 
-from playhouse.postgres_ext import Model, PostgresqlDatabase
+from playhouse.postgres_ext import (
+    BooleanField,
+    DateTimeField,
+    Model,
+    PostgresqlDatabase,
+)
 
 from config import get_config
 
@@ -31,6 +36,10 @@ def ensure_connection(func):
 
 class BaseSQLModel(Model):
     """Base model for all PostgreSQL models."""
+
+    date_created = DateTimeField(null=True)
+    date_updated = DateTimeField(null=True)
+    is_deleted = BooleanField(default=False)
 
     class Meta:
         database = postgre_client
@@ -80,11 +89,11 @@ class BaseSQLModel(Model):
             kwargs["date_updated"] = cls._get_utc_timestamp()
         return super().update(*args, **kwargs)
 
-    # restricted db functions
-    @classmethod
-    def delete(cls):
-        cls._raise_attr_error()
+    def delete_instance(self):
+        self.is_deleted = True
+        self.save()
 
+    # restricted db functions
     @classmethod
     def bulk_create(cls, model_list, batch_size=None):
         cls._raise_attr_error()
@@ -92,9 +101,6 @@ class BaseSQLModel(Model):
     @classmethod
     def delete_by_id(cls, pk):
         cls._raise_attr_error()
-
-    def delete_instance(self, recursive=False, delete_nullable=False):
-        self._raise_attr_error()
 
     @classmethod
     def insert_from(cls, query, fields):

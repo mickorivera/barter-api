@@ -4,11 +4,13 @@ from flask_rebar.rebar import HandlerRegistry
 from app.common.schemas import ErrorSchema
 from app.v1.listing.resources import (
     create_item,
+    delete_item,
     get_brand_list,
     get_category_list,
     get_item_details,
     get_tag_list,
     get_user_item_list,
+    update_item,
 )
 from app.v1.listing.schemas import (
     BrandSchema,
@@ -134,6 +136,31 @@ version_1_registry.add_handler(
     request_body_schema=ItemSchema(),
     response_body_schema={
         200: ItemSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+version_1_registry.add_handler(
+    update_item,
+    rule="/items/<id>",
+    method="PATCH",
+    request_body_schema=ItemSchema(partial=True),
+    response_body_schema={
+        200: ItemSchema(),
+        401: ErrorSchema(),
+        404: ErrorSchema(),
+        500: ErrorSchema(),
+    },
+    tags=["Item"],
+)
+version_1_registry.add_handler(
+    delete_item,
+    rule="/items/<id>",
+    method="DELETE",
+    response_body_schema={
+        204: ErrorSchema(),
         401: ErrorSchema(),
         404: ErrorSchema(),
         500: ErrorSchema(),

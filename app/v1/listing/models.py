@@ -1,8 +1,6 @@
 from playhouse.postgres_ext import (
     AutoField,
-    BooleanField,
     CharField,
-    DateTimeField,
     DecimalField,
     ForeignKeyField,
     ManyToManyField,
@@ -16,9 +14,6 @@ from app.v1.user.models import UserModel
 class TagModel(BaseSQLModel):
     id = AutoField()
     value = CharField(unique=True, max_length=64)
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "tags"
@@ -38,9 +33,6 @@ class TagModel(BaseSQLModel):
 class BrandModel(BaseSQLModel):
     id = AutoField()
     name = CharField(unique=True, max_length=64)
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "brands"
@@ -56,9 +48,6 @@ class BrandModel(BaseSQLModel):
 class CategoryModel(BaseSQLModel):
     id = AutoField()
     name = CharField(unique=True, max_length=64)
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "categories"
@@ -92,9 +81,6 @@ class ItemModel(BaseSQLModel):
     popularity_rate = DecimalField(
         decimal_places=2, auto_round=True, default=0
     )
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "items"
@@ -110,9 +96,6 @@ class ImageModel(BaseSQLModel):
     id = AutoField()
     url = CharField(max_length=256)
     item = ForeignKeyField(ItemModel, backref="images", on_delete="CASCADE")
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "images"
@@ -125,9 +108,6 @@ class MatchModel(BaseSQLModel):
     id = AutoField()
     item_a = ForeignKeyField(ItemModel, index=True, related_name="matches_a")
     item_b = ForeignKeyField(ItemModel, index=True, related_name="matches_b")
-    date_created = DateTimeField(null=True)
-    date_updated = DateTimeField(null=True)
-    is_deleted = BooleanField(default=False)
 
     class Meta(BaseSQLModel):
         table_name = "matches"

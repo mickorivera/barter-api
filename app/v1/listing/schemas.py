@@ -27,7 +27,7 @@ class CategorySchema(Schema):
 
 
 class TagSchema(Schema):
-    id = fields.Integer(required=True)
+    id = fields.Integer()
     value = fields.String(required=True)
 
     _links = DictHyperlinks(
