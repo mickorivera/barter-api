@@ -120,6 +120,20 @@ def seed_items(users):
         item.tags.add(tag)
         yield item
 
+    item = ItemModel.create(
+        title=f"(2) Trading my {brand} {category}!",
+        user=users[0],
+        category=categories[0],
+        brand=brands[0],
+        condition=random.choice(ItemCondition),
+        value=random.uniform(1, 100),
+        currency=Currency.PHP,
+        description=f"{brand} {category} #{tag}",
+        status=random.choice(ItemStatus),
+    )
+    item.tags.add(tags)
+    yield item
+
 
 if __name__ == "__main__":
     clear_table()

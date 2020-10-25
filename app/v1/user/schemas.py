@@ -1,5 +1,7 @@
+from flask_marshmallow.fields import URLFor
 from marshmallow import fields, Schema, validate
 
+from app.common.fields import DictHyperlinks
 from app.constants import UserRole
 
 
@@ -14,6 +16,17 @@ class UserSchema(Schema):
     date_updated = fields.String(dump_only=True)
     role = fields.String(
         default=UserRole.MEMBER, validate=validate.OneOf(UserRole)
+    )
+
+    _links = DictHyperlinks(
+        {
+            "self": URLFor("v1.get_user_details", values=dict(id="<id>")),
+            "items": URLFor(
+                "v1.get_user_item_list", values=dict(user_id="<id>")
+            ),
+            "users": URLFor("v1.get_user_list"),
+        },
+        dump_only=True,
     )
 
 
